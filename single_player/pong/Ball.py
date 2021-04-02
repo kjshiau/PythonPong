@@ -1,12 +1,16 @@
 from Paddle import Paddle
 
+color_progression = ['#FFFFFF', '#FFFF00', '#FFFA00', '#FF0000',
+                     '#800080', '#0000FF']
+
 class Ball():
     def __init__(self, x=0, y=0, ball_speed=5, radius=20):
         self.x = x
         self.y = y
         self.speed = ball_speed
         self.radius = radius
-        
+        self.color_index = 0
+        self.ball_color = color_progression[self.color_index]
         self.x_speed = self.speed
         self.y_speed = self.speed
         self.currently_intersects = False
@@ -23,8 +27,11 @@ class Ball():
         
     def draw(self):
         push()
-        fill(255)
+        
+        strokeWeight(5)
+        fill(color_progression[self.color_index])
         ellipse(self.x, self.y, 2 * self.radius, 2 * self.radius)
+        
         pop()
 
     def collision(self, paddle):
@@ -57,6 +64,17 @@ class Ball():
             if not self.currently_intersects:
                 self.currently_intersects = True
     
+                self.x_speed += 2
+                self.y_speed += 2
+                
+                if self.color_index >= len(color_progression):
+                    self.ball_color = color(random(255), random(255), random(255));
+                else:
+                    self.ball_color = color_progression[self.color_index]
+    
+                if self.color_index < len(color_progression) - 1:
+                    self.color_index += 1
+    
                 if side == 'right' or side == 'left':
                     self.x_speed = -self.x_speed
                 else:
@@ -67,5 +85,3 @@ class Ball():
             # Resetting the variable here ensures there's only 1 change of
             # direction until the ball and paddle no longer intersect 
             self.currently_intersects = False
-    
-        print(str(self.currently_intersects))

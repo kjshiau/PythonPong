@@ -14,7 +14,7 @@ def setup():
     
     # 3. Initialize your ball variable to a new Ball(), for example:
     #    ball = Ball(x_position, y_position)
-    ball = Ball(width/2, 0)
+    ball = Ball(width/2)
     
     # 4. Make a global paddle variable.
     global paddle
